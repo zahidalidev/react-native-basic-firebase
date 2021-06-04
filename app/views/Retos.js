@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, Alert, TouchableOpacity, Text, Button, FlatList, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, Alert, TouchableOpacity, Text, Button, FlatList, Dimensions, StatusBar } from 'react-native';
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Constants from 'expo-constants';
 import firebase from "firebase"
@@ -45,7 +45,6 @@ export default class Retos extends React.Component {
 
 
   render() {
-
     if (this.state.loading) {
       return (
         <View>
@@ -55,33 +54,35 @@ export default class Retos extends React.Component {
     }
 
     return (
-      <View style={{ marginTop: Constants.statusBarHeight, flex: 1, alignItems: "center", justifyContent: "center", width: "100%" }} >
+      <>
+        <StatusBar backgroundColor={Colors.primary} barStyle="light-content" />
 
-        {/* App Bar */}
-        <View style={{ paddingLeft: 20, paddingRight: 20, justifyContent: "space-between", alignItems: "center", flexDirection: "row", position: "absolute", top: 0, left: 0, right: 0, height: 65, backgroundColor: Colors.primary }} >
-          <TouchableOpacity>
-            <MaterialCommunityIcons name="arrow-left" size={25} color={Colors.white} />
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center", width: "100%" }} >
+          {/* App Bar */}
+          <View style={{ paddingLeft: 20, paddingRight: 20, justifyContent: "space-between", alignItems: "center", flexDirection: "row", position: "absolute", top: 0, left: 0, right: 0, height: 65, backgroundColor: Colors.primary }} >
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Evolucion')} >
+              <MaterialCommunityIcons name="arrow-left" size={25} color={Colors.white} />
+            </TouchableOpacity>
+            <Text style={{ color: Colors.white, fontSize: 25, marginRight: 100 }} >Evolucion</Text>
+            <TouchableOpacity style={{ backgroundColor: Colors.secondary }} >
+              <Text style={{ padding: 10, color: Colors.white, fontSize: 20 }} >INICIO</Text>
+            </TouchableOpacity>
+          </View>
+
+          <FlatList
+            style={{
+              flex: 1, marginTop: RFValue(70, height)
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            data={this.state.sitios}
+            renderItem={({ item, index }) => <Card data={item} />}
+          />
+
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Evolucion')} style={{ backgroundColor: Colors.primary, width: "100%", justifyContent: "center", alignItems: "center" }} >
+            <Text style={{ padding: 23, color: Colors.white, fontSize: 20 }} >NUEVOTO</Text>
           </TouchableOpacity>
-          <Text style={{ color: Colors.white, fontSize: 25, marginRight: 100 }} >Evolucion</Text>
-          <TouchableOpacity style={{ backgroundColor: Colors.secondary }} >
-            <Text style={{ padding: 10, color: Colors.white, fontSize: 20 }} >INICIO</Text>
-          </TouchableOpacity>
-        </View>
-
-        <FlatList
-          style={{
-            flex: 1, marginTop: RFValue(70, height)
-          }}
-          keyExtractor={(item, index) => item.id}
-          data={this.state.sitios}
-          renderItem={({ item, index }) => <Card data={item} />}
-        />
-
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Evolucion')} style={{ backgroundColor: Colors.primary, width: "100%", justifyContent: "center", alignItems: "center" }} >
-          <Text style={{ padding: 23, color: Colors.white, fontSize: 20 }} >NUEVOTO</Text>
-        </TouchableOpacity>
-      </View >
+        </View >
+      </>
     )
-
   }
 }
