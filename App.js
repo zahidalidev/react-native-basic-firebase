@@ -3,8 +3,8 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer"
 
-import Evolucion from './app/views/Evolucion.js'
 import Retos from './app/views/Retos.js'
+import Evolucion from './app/views/Evolucion.js'
 
 const Stack = createDrawerNavigator();
 
@@ -22,16 +22,15 @@ console.warn = message => {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Retos" drawerStyle={{
+      <Stack.Navigator initialRouteName="Evolucion" drawerStyle={{
         backgroundColor: "white",
         width: 0
       }} >
 
-        <Stack.Screen name="Retos">{(props) => <Retos {...props} />}</Stack.Screen>
         <Stack.Screen name="Evolucion">{(props) => <Evolucion {...props} />}</Stack.Screen>
+        <Stack.Screen name="Retos">{(props) => <Retos {...props} />}</Stack.Screen>
 
       </Stack.Navigator>
     </NavigationContainer>
-
   );
 }
