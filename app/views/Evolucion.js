@@ -33,18 +33,20 @@ export default class Evolucion extends React.Component {
     const { nombre, detalle, categoria, tiempo, periodicidad, completado } = this.state;
     if (!(nombre && detalle && categoria && tiempo && periodicidad && completado)) {
       alert("Please Add All the feild.")
+      return;
     }
     const body = {
       nombre, detalle, categoria, tiempo, periodicidad, completado
     }
 
     try {
+      this.setState({ indicator: true })
       await this.retosRef.add(body);
       alert("Successfully Added")
     } catch (error) {
       alert(error)
     }
-
+    this.setState({ indicator: false })
   }
 
   render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, Alert, TouchableOpacity, Text, Button, FlatList, Dimensions, StatusBar } from 'react-native';
+import { View, ActivityIndicator, TouchableOpacity, Text, FlatList, Dimensions, StatusBar } from 'react-native';
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Constants from 'expo-constants';
 import firebase from "firebase"
@@ -36,19 +36,20 @@ export default class Retos extends React.Component {
           return reto;
         })
         // console.log(retos)
-        this.setState({ sitios: retos, loading: false });
+        this.setState({ sitios: [...this.state.sitios, ...retos], loading: false });
       })
     } catch (error) {
-
+      alert(error)
     }
+    this.setState({ loading: false });
   }
 
 
   render() {
     if (this.state.loading) {
       return (
-        <View>
-          <Text>Cargando </Text>
+        <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }} >
+          <ActivityIndicator color={Colors.primary} size={RFValue(50, height)} />
         </View>
       )
     }
@@ -59,13 +60,13 @@ export default class Retos extends React.Component {
 
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center", width: "100%" }} >
           {/* App Bar */}
-          <View style={{ paddingLeft: 20, paddingRight: 20, justifyContent: "space-between", alignItems: "center", flexDirection: "row", position: "absolute", top: 0, left: 0, right: 0, height: 65, backgroundColor: Colors.primary }} >
+          <View style={{ paddingLeft: RFValue(20, height), paddingRight: RFValue(20, height), justifyContent: "space-between", alignItems: "center", flexDirection: "row", position: "absolute", top: 0, left: 0, right: 0, height: RFValue(65, height), backgroundColor: Colors.primary }} >
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Evolucion')} >
-              <MaterialCommunityIcons name="arrow-left" size={25} color={Colors.white} />
+              <MaterialCommunityIcons name="arrow-left" size={RFValue(25, height)} color={Colors.white} />
             </TouchableOpacity>
-            <Text style={{ color: Colors.white, fontSize: 25, marginRight: 100 }} >Evolucion</Text>
+            <Text style={{ color: Colors.white, fontSize: RFValue(25, height), marginRight: RFValue(100, height) }} >Evolucion</Text>
             <TouchableOpacity style={{ backgroundColor: Colors.secondary }} >
-              <Text style={{ padding: 10, color: Colors.white, fontSize: 20 }} >INICIO</Text>
+              <Text style={{ padding: RFValue(10, height), color: Colors.white, fontSize: RFValue(20, height) }} >INICIO</Text>
             </TouchableOpacity>
           </View>
 
@@ -79,7 +80,7 @@ export default class Retos extends React.Component {
           />
 
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Evolucion')} style={{ backgroundColor: Colors.primary, width: "100%", justifyContent: "center", alignItems: "center" }} >
-            <Text style={{ padding: 23, color: Colors.white, fontSize: 20 }} >NUEVOTO</Text>
+            <Text style={{ padding: RFValue(23, height), color: Colors.white, fontSize: RFValue(20, height) }} >NUEVOTO</Text>
           </TouchableOpacity>
         </View >
       </>
