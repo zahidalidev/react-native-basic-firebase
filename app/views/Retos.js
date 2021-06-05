@@ -7,6 +7,7 @@ import "firebase/firestore"
 
 import { Colors } from "../config/colors";
 import { firebaseConfig } from "../config/db"
+import Notification from '../components/Notification';
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
@@ -30,6 +31,7 @@ export default class Evolucion extends React.Component {
 
   retosRef = firestore.collection('Retos')
   submit = async () => {
+
     const { nombre, detalle, categoria, tiempo, periodicidad, completado } = this.state;
     if (!(nombre && detalle && categoria && tiempo && periodicidad && completado)) {
       alert("Uno o mas campos falta por rellenar")
@@ -42,18 +44,24 @@ export default class Evolucion extends React.Component {
     try {
       this.setState({ indicator: true })
       await this.retosRef.add(body);
+      this.noRef.schedulePushNotification("Completado", `¡Continua tu reto ${detalle}`)
       alert("Completado")
+
     } catch (error) {
       alert(error)
     }
     this.setState({ indicator: false })
   }
 
+  noRef = {}
+
   render() {
     return (
       <>
         <StatusBar backgroundColor={Colors.primary} barStyle="light-content" />
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center", width: "100%" }} >
+
+          <Notification noRef={this.noRef} />
 
           {/* App Bar */}
           <View style={{ paddingLeft: RFValue(20, height), paddingRight: RFValue(20, height), justifyContent: "space-between", alignItems: "center", flexDirection: "row", position: "absolute", top: 0, left: 0, right: 0, height: RFValue(65, height), backgroundColor: Colors.primary }} >
